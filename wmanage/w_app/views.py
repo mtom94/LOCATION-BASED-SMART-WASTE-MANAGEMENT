@@ -1,7 +1,6 @@
 from django.shortcuts import render
 import threading
 import json
-import requests
 from django.core import serializers
 from .models import *
 from django.db.models import Count
