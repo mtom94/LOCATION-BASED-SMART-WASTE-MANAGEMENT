@@ -1,3 +1,5 @@
+import random
+import string
 from django.shortcuts import render
 import threading
 import json
@@ -172,6 +174,19 @@ def del_drv(request):
 	obj5=Driver.objects.get(S_id=S_id)
 	obj5.delete()
 	return HttpResponse("<script>alert('Deleted Successfully');window.location.href='/man_driver/'</script>")
+
+@never_cache
+def add_garbage_bins(request):
+    if 'uid' in request.session:
+        return render(request, 'add_garbage_bins.html')
+    else:
+        return render(request,'sign_in.html')
+
+def generate_random_code():
+    chars = string.digits
+    code = ''.join(random.choice(chars) for _ in range(4))
+
+    
 ##################################################################################################################################
 
 #Customer
