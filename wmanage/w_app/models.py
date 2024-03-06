@@ -14,3 +14,8 @@ class Driver(models.Model):
     drv_email=models.CharField(max_length=255)
     drv_place=models.CharField(max_length=255)
     drv_psw=models.CharField(max_length=255)
+class Complaints(models.Model):
+    S_id = models.IntegerField(primary_key=True)
+    c_name= models.CharField(max_length=255)
+    c_email=models.CharField(max_length=400)
+    status = models.CharField(max_length=255,default="-")

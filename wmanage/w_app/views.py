@@ -226,3 +226,19 @@ def edit_prof(request):
 	obj5.save()
 	request.session['em']=user_email
 	return HttpResponse("<script>alert('Updated Successfully');window.location.href='/user_profile/'</script>")
+@never_cache
+def reg_complaint(request):
+    if 'uis' in request.session:
+        return render(request,'reg_complaint.html')
+    else:
+        return render(request,'sign_in.html')
+
+@never_cache
+def add_cmp_db(request):
+    complaint = request.POST.get('ucmp')
+    c_name= request.session['uname']
+    c_email=request.session['em']
+    obj2=Complaints(
+		c_name,c_email=c_email,complaint = complaint)
+    obj2.save()
+    return HttpResponse("<script>alert('Complaint Added Successfull');window.location.href='/user_profile/'</script>")
