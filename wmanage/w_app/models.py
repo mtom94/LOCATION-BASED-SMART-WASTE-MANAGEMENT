@@ -19,3 +19,12 @@ class Complaints(models.Model):
     c_name= models.CharField(max_length=255)
     c_email=models.CharField(max_length=400)
     status = models.CharField(max_length=255,default="-")
+class GarbageB(models.Model):
+    S_id= models.IntegerField(primary_key = True)
+    g_id= models.CharField(max_length=255)
+    g_lat=models.CharField(max_length=255)
+    g_lng=models.CharField(max_length=255)
+    g_fill=models.CharField(max_length=255,default="-")
+    g_status=models.CharField(max_length=255,default="-")
+    g_place=models.CharField(max_length=255)
+    g_drv=models.CharField(max_length=255,default="-")
