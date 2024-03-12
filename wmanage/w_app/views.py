@@ -7,6 +7,8 @@ from django.core import serializers
 from .models import *
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
+from reportlab.pdfgen import canvas
+
 from django.db.models import Q
 from django.db.models import Count
 from django.views.decorators.cache import never_cache
