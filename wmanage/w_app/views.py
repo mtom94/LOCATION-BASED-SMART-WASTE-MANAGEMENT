@@ -8,6 +8,8 @@ from .models import *
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
 from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+
 
 from django.db.models import Q
 from django.db.models import Count
@@ -18,6 +20,11 @@ import datetime
 import re
 from datetime import datetime
 import os
+
+from django.http import FileResponse
+import io
+
+# Generate pdf file list
 
 # Create your views here.
 
