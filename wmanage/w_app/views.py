@@ -7,9 +7,8 @@ from django.core import serializers
 from .models import *
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
-
+import csv
+from w_app.models import Driver
 
 from django.db.models import Q
 from django.db.models import Count
@@ -24,7 +23,7 @@ import os
 from django.http import FileResponse
 import io
 
-# Generate pdf file list
+
 
 # Create your views here.
 
@@ -183,6 +182,20 @@ def del_drv(request):
 	obj5=Driver.objects.get(S_id=S_id)
 	obj5.delete()
 	return HttpResponse("<script>alert('Deleted Successfully');window.location.href='/man_driver/'</script>")
+
+def generate_csv(request):
+    drivers = Driver.objects.all()
+    
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="drivers.csv"'
+    
+    writer = csv.writer(response)
+    writer.writerow(['Id','Name','Phone','Email','Place'])
+    
+    for driver in drivers:
+        writer.writerow([driver.S_id, driver.drv_name,driver.drv_phn,driver.drv_email,driver.drv_place])
+        
+    return response
 
 @never_cache
 def add_garbage_bins(request):
