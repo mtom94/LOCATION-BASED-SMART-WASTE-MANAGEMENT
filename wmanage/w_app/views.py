@@ -76,9 +76,9 @@ def check_login(request):
 		email=obj5.Email
 		request.session['uid'] = email
 		request.session['uname'] = name
-		request.session['em'] = email
+		request.session['em'] =  email
 		return HttpResponse("<script>alert('Login Successful');window.location.href='/show_home_user/';</script>")
-	elif u_id=="admin@gmail.com" and password=="admin12@A":
+	elif u_id=="admin@gmail.com" and password==" admin12@A":
 		request.session['uname'] = "Admin"
 		request.session['uid'] = "Admin"
 		return HttpResponse("<script>alert('Login Successful');window.location.href='/show_home_admin/';</script>")
