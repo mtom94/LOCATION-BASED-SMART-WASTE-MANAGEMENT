@@ -40,12 +40,23 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="{% url 'show_home_admin' %}">Home</a></li>
+    
           <li class="dropdown"><a href="#"><span>Drivers</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a class="active" href="{% url 'add_drivers' %}">Add</a></li>
               <li><a class="active" href="{% url 'man_driver' %}">Manage</a></li>
+              <li><a class="active" href="{% url 'search_driver' %}">Search</a></li>
+              <li><a class="active" href="{% url 'assign_work' %}">Assign Work</a></li>
             </ul>
           </li>
+          <li class="dropdown"><a href="#"><span>Garbage Bins</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="active" href="{% url 'add_garbage_bins' %}">Add</a></li>
+              <li><a class="active" href="{% url 'man_garbage_bins' %}">Manage</a></li>
+              <li><a class="active" href="{% url 'view_garbage_report' %}">Report</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link scrollto " href="{% url 'view_users_complaint' %}">Complaints</a></li>
           
           <li><a class="getstarted scrollto" href="{% url 'logout' %}">Logout</a></li>
         </ul>

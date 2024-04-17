@@ -24,6 +24,81 @@
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
   <link href="{% static 'fo.css' %}" rel="stylesheet">
+  <style type="text/css">
+    .containerr {
+            width: 400px;
+            max-height: 200vh; /* Adjusted maximum height */
+             /* Added vertical scrollbar if content exceeds height */
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        input[type="submit"]:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .signin-link {
+            margin-top: 10px;
+        }
+
+        .signin-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+  </style>
 </head>
 
 <body>
@@ -44,8 +119,18 @@
             <ul>
               <li><a class="active" href="{% url 'add_drivers' %}">Add</a></li>
               <li><a class="active" href="{% url 'man_driver' %}">Manage</a></li>
+              <li><a class="active" href="{% url 'search_driver' %}">Search</a></li>
+              <li><a class="active" href="{% url 'assign_work' %}">Assign Work</a></li>
             </ul>
           </li>
+          <li class="dropdown"><a href="#"><span>Garbage Bins</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="active" href="{% url 'add_garbage_bins' %}">Add</a></li>
+              <li><a class="active" href="{% url 'man_garbage_bins' %}">Manage</a></li>
+              <li><a class="active" href="{% url 'view_garbage_report' %}">Report</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link scrollto " href="{% url 'view_users_complaint' %}">Complaints</a></li>
           
           <li><a class="getstarted scrollto" href="{% url 'logout' %}">Logout</a></li>
         </ul>
@@ -72,85 +157,119 @@
     <br>
     <br>
     <section  class="inner-page">
-      <div class="formbold-main-wrapper">
-
-      <div class="formbold-form-wrapper">
-         <img src="{% static 'assets/img/values-2.png' %}">
-
-        <form action="{% url 'add_drw_db' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
-
-          <div class="formbold-input-flex">
-            <div>
-              <label for="drv_name" class="formbold-form-label"> Name </label>
-              <input
-                type="text"
-                name="drv_name"
-                id="drv_name"
-                placeholder="Enter driver name"
-                class="formbold-form-input"
-                required
-              />
+      <div class="containerr">
+        <form method="POST" action="{% url 'add_drw_db' %}" id="signup-form">{% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="drv_name" required>
+                <span class="error-msg" id="name-error-msg"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="drv_email" required>
+                <span class="error-msg" id="email-error-msg"></span>
             </div>
 
-            <div>
-              <label for="drv_phn" class="formbold-form-label"> Phone </label>
-              <input
-                  type="text"
-                  name="drv_phn"
-                  id="drv_phn"
-                  minlength="10"
-                  maxlength="10"
-                  placeholder="Enter phone number"
-                  pattern="[0-9]*"
-                  class="formbold-form-input"
-                  required
-              >
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="drv_place" rows="4" required></textarea>
             </div>
-          </div>
-
-
-          <div class="formbold-mb-3">
-            <label for="drv_email" class="formbold-form-label"> Email </label>
-            <input
-              type="email"
-              name="drv_email"
-              id="drv_email"
-              placeholder="Enter email"
-              class="formbold-form-input"
-              required
-            />
-          </div>
-          <div>
-              <label for="drv_psw" class="formbold-form-label"> Password </label>
-              <input
-                type="password"
-                name="drv_psw"
-                id="drv_psw"
-                placeholder="Enter password"
-                class="formbold-form-input"
-                required
-              />
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="drv_phn" required>
+                <span class="error-msg" id="phone-error-msg"></span>
             </div>
-
-          <div class="formbold-mb-3">
-            <label for="drv_place" class="formbold-form-label"> Place </label>
-            <input
-              type="text"
-              name="drv_place"
-              id="drv_place"
-              placeholder="Enter place"
-              class="formbold-form-input"
-              required
-            />
-          </div>
-
-
-
-
-          <button class="formbold-btn">Add</button>
+            <input type="submit" value="Add" id="submit-btn" disabled>
         </form>
-      </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var nameInput = document.getElementById("name");
+            var emailInput = document.getElementById("email");
+            var addressInput = document.getElementById("address");
+            var phoneInput = document.getElementById("phone");
+            var submitButton = document.getElementById("submit-btn");
+
+            nameInput.addEventListener("input", validateName);
+            emailInput.addEventListener("input", validateEmail);
+            addressInput.addEventListener("input", validateAddress);
+            phoneInput.addEventListener("input", validatePhone);
+
+            function validateName() {
+                var name = nameInput.value;
+                var namePattern = /^[a-zA-Z\s]{3,}$/;
+                if (!namePattern.test(name)) {
+                    nameInput.style.borderColor = "red";
+                    document.getElementById("name-error-msg").innerText = "Name should contain alphabets only also should contain at least 3 characters.";
+                    submitButton.disabled = true;
+                } else {
+                    nameInput.style.borderColor = "initial";
+                    document.getElementById("name-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function validateEmail() {
+                var email = emailInput.value;
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+                if (!emailPattern.test(email)) {
+                    emailInput.style.borderColor = "red";
+                    document.getElementById("email-error-msg").innerText = "Please enter a valid email address.";
+                    submitButton.disabled = true;
+                } else {
+                    emailInput.style.borderColor = "initial";
+                    document.getElementById("email-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+
+
+            function validateAddress() {
+                var addressValid = addressInput.checkValidity();
+                if (!addressValid) {
+                    addressInput.style.borderColor = "red";
+                    submitButton.disabled = true;
+                } else {
+                    addressInput.style.borderColor = "initial";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function validatePhone() {
+                var phone = phoneInput.value;
+                var phonePattern = /^\d{10}$/;
+                if (!phonePattern.test(phone)) {
+                    phoneInput.style.borderColor = "red";
+                    document.getElementById("phone-error-msg").innerText = "Phone number should be 10 digits.";
+                    submitButton.disabled = true;
+                } else {
+                    phoneInput.style.borderColor = "initial";
+                    document.getElementById("phone-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function updateSubmitButtonState() {
+                var nameValid = nameInput.checkValidity();
+                var emailValid = emailInput.checkValidity();
+
+                var addressValid = addressInput.checkValidity();
+                var phoneValid = phoneInput.checkValidity();
+
+                if (nameValid && emailValid && addressValid && phoneValid) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+        });
+    </script>
+
 
     </section>
 
@@ -187,13 +306,13 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 
-  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+<!--   <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
   <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
   <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
   <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
   <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script> -->
 
 
   <script src="{% static 'assets/js/main.js' %}"></script>

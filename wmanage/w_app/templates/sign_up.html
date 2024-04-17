@@ -1,72 +1,252 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="{% static 'log_reg/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
-
-    <!-- Main css -->
-    <link rel="stylesheet" href="{% static 'log_reg/css/style.css' %}">
+    <title>Signup Page</title>
     <style>
-    .form-group select {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-    }
-</style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #2c3e50, #3498db);
+        }
+
+        .container {
+            width: 400px;
+            max-height: 90vh; /* Adjusted maximum height */
+            overflow-y: auto; /* Added vertical scrollbar if content exceeds height */
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        input[type="submit"]:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .signin-link {
+            margin-top: 10px;
+        }
+
+        .signin-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-
-        <br>
-
-        <!-- Sign up form -->
-        <section class="signup">
-            <div class="container">
-                <div class="signup-content">
-                    <div class="signup-form">
-                        <h2 class="form-title">Sign up</h2>
-
-                        <form method="POST" action="{% url 'reg_u' %}" class="register-form" id="register-form">{% csrf_token %}
-                            <div class="form-group">
-                        </div>
-                            <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name"  id="name" placeholder="Name" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="text" name="email" placeholder="Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required title="Please enter a valid email address">
-                            </div>
-                            <div class="form-group">
-                                <label for="pswd"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password"  placeholder="Password" name="pswd" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$" title="Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character" required required>
-                            </div>
-                            
-                            <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="signup-image">
-                        <figure><img src="{% static 'log_reg/images/signup-image.jpg' %}" alt="sing up image"></figure>
-                        <a href="{% url 'display_login' %}" class="signup-image-link">I am already a member</a>
-                    </div>
-                </div>
+    <div class="container">
+        <h2>Signup</h2>
+        <form method="POST" action="{% url 'reg_u' %}" id="signup-form">{% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <span class="error-msg" id="name-error-msg"></span>
             </div>
-        </section>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-msg" id="email-error-msg"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <span class="error-msg" id="password-error-msg"></span>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                <span class="error-msg" id="confirm-password-error-msg"></span>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" required>
+                <span class="error-msg" id="phone-error-msg"></span>
+            </div>
+            <input type="submit" value="Signup" id="submit-btn" disabled>
+        </form>
+        <div class="signin-link">
+            <a href="{% url 'display_login' %}">Already have an account? Sign in</a>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var nameInput = document.getElementById("name");
+            var emailInput = document.getElementById("email");
+            var passwordInput = document.getElementById("password");
+            var confirmPasswordInput = document.getElementById("confirm-password");
+            var addressInput = document.getElementById("address");
+            var phoneInput = document.getElementById("phone");
+            var submitButton = document.getElementById("submit-btn");
 
+            nameInput.addEventListener("input", validateName);
+            emailInput.addEventListener("input", validateEmail);
+            passwordInput.addEventListener("input", validatePassword);
+            confirmPasswordInput.addEventListener("input", validateConfirmPassword);
+            addressInput.addEventListener("input", validateAddress);
+            phoneInput.addEventListener("input", validatePhone);
 
-    <!-- JS -->
-    <script src="{% static 'log_reg/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'log_reg/js/main.js' %}"></script>
+            function validateName() {
+                var name = nameInput.value;
+                var namePattern = /^[a-zA-Z\s]{3,}$/;
+                if (!namePattern.test(name)) {
+                    nameInput.style.borderColor = "red";
+                    document.getElementById("name-error-msg").innerText = "Name should contain alphabets only also should contain at least 3 characters.";
+                    submitButton.disabled = true;
+                } else {
+                    nameInput.style.borderColor = "initial";
+                    document.getElementById("name-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function validateEmail() {
+                var email = emailInput.value;
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+                if (!emailPattern.test(email)) {
+                    emailInput.style.borderColor = "red";
+                    document.getElementById("email-error-msg").innerText = "Please enter a valid email address.";
+                    submitButton.disabled = true;
+                } else {
+                    emailInput.style.borderColor = "initial";
+                    document.getElementById("email-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function validatePassword() {
+                var password = passwordInput.value;
+                var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+                if (!passwordPattern.test(password)) {
+                    passwordInput.style.borderColor = "red";
+                    document.getElementById("password-error-msg").innerText = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+                    submitButton.disabled = true;
+                } else {
+                    passwordInput.style.borderColor = "initial";
+                    document.getElementById("password-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function validateConfirmPassword() {
+                var confirmPassword = confirmPasswordInput.value;
+                var password = passwordInput.value;
+                if (confirmPassword !== password) {
+                    confirmPasswordInput.style.borderColor = "red";
+                    document.getElementById("confirm-password-error-msg").innerText = "Passwords do not match.";
+                    submitButton.disabled = true;
+                } else {
+                    confirmPasswordInput.style.borderColor = "initial";
+                    document.getElementById("confirm-password-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function validateAddress() {
+                var addressValid = addressInput.checkValidity();
+                if (!addressValid) {
+                    addressInput.style.borderColor = "red";
+                    submitButton.disabled = true;
+                } else {
+                    addressInput.style.borderColor = "initial";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function validatePhone() {
+                var phone = phoneInput.value;
+                var phonePattern = /^\d{10}$/;
+                if (!phonePattern.test(phone)) {
+                    phoneInput.style.borderColor = "red";
+                    document.getElementById("phone-error-msg").innerText = "Phone number should be 10 digits.";
+                    submitButton.disabled = true;
+                } else {
+                    phoneInput.style.borderColor = "initial";
+                    document.getElementById("phone-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function updateSubmitButtonState() {
+                var nameValid = nameInput.checkValidity();
+                var emailValid = emailInput.checkValidity();
+                var passwordValid = passwordInput.checkValidity();
+                var confirmPasswordValid = confirmPasswordInput.checkValidity();
+                var addressValid = addressInput.checkValidity();
+                var phoneValid = phoneInput.checkValidity();
+
+                if (nameValid && emailValid && passwordValid && confirmPasswordValid && addressValid && phoneValid) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+        });
+    </script>
 </body>
 </html>

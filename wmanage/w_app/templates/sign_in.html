@@ -1,54 +1,165 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #2c3e50, #3498db);
+        }
 
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="{% static 'log_reg/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+        .container {
+            width: 300px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="{% static 'log_reg/css/style.css' %}">
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        input[type="submit"]:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .links {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .links a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-
-        <br>
-       <!-- Sing in  Form -->
-        <section class="sign-in">
-            <div class="container">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="{% static 'log_reg/images/signin-image.jpg' %}" alt="sing up image"></figure>
-                        <a href="{% url 'display_reg' %}" class="signup-image-link">Create an account</a>
-                    </div>
-
-                    <div class="signin-form">
-                        <h2 class="form-title">Sign in</h2>
-                        <form method="POST" action="{% url 'check_login' %}" class="register-form" id="login-form">{% csrf_token %}
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" id="email" name="email" placeholder="Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required title="Please enter a valid email address">
-
-                            </div>
-                            <div class="form-group">
-                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="password" placeholder="Enter Password" required/>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+    <div class="container">
+        <h2>Login</h2>
+        <form method="POST" action="{% url 'check_login' %}" class="register-form" id="login-form">{% csrf_token %}
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-msg" id="email-error-msg"></span>
             </div>
-        </section>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <span class="error-msg" id="password-error-msg"></span>
+            </div>
+            <input type="submit" value="Login" id="submit-btn" disabled>
+        </form>
+        <div class="links">
+            <a href="{% url 'display_reg' %}">Signup</a>
+            <span>|</span>
+            <a href="{% url 'forgot_p' %}">Forgot Password</a>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var emailInput = document.getElementById("email");
+            var passwordInput = document.getElementById("password");
+            var submitButton = document.getElementById("submit-btn");
 
+            emailInput.addEventListener("input", function() {
+                var email = this.value;
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
 
-    <!-- JS -->
-<script src="{% static 'log_reg/vendor/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'log_reg/js/main.js' %}"></script>
+                if (!emailPattern.test(email)) {
+                    this.style.borderColor = "red";
+                    document.getElementById("email-error-msg").innerText = "Please enter a valid email address.";
+                    submitButton.disabled = true;
+                } else {
+                    this.style.borderColor = "blue";
+                    document.getElementById("email-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+
+                
+            });
+
+            passwordInput.addEventListener("input", function() {
+                var password = this.value;
+                var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+
+                if (!passwordPattern.test(password)) {
+                    this.style.borderColor = "red";
+                    document.getElementById("password-error-msg").innerText = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+                    submitButton.disabled = true;
+                } else {
+                    this.style.borderColor = "blue";
+                    document.getElementById("password-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+
+                
+            });
+
+            function updateSubmitButtonState() {
+                var emailValid = emailInput.checkValidity();
+                var passwordValid = passwordInput.checkValidity();
+
+                if (emailValid && passwordValid) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+        });
+    </script>
 </body>
 </html>

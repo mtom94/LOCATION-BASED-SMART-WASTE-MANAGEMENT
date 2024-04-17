@@ -38,13 +38,23 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="{% url 'show_home_admin' %}">Home</a></li>
+          <li><a class="nav-link scrollto " href="{% url 'show_home_admin' %}">Home</a></li>
           <li class="dropdown"><a href="#"><span>Drivers</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a class="active" href="{% url 'add_drivers' %}">Add</a></li>
               <li><a class="active" href="{% url 'man_driver' %}">Manage</a></li>
+              <li><a class="active" href="{% url 'search_driver' %}">Search</a></li>
+              <li><a class="active" href="{% url 'assign_work' %}">Assign Work</a></li>
             </ul>
           </li>
+          <li class="dropdown"><a href="#"><span>Garbage Bins</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="active" href="{% url 'add_garbage_bins' %}">Add</a></li>
+              <li><a class="active" href="{% url 'man_garbage_bins' %}">Manage</a></li>
+              <li><a class="active" href="{% url 'view_garbage_report' %}">Report</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link scrollto " href="{% url 'view_users_complaint' %}">Complaints</a></li>
           
           <li><a class="getstarted scrollto" href="{% url 'logout' %}">Logout</a></li>
         </ul>
@@ -70,14 +80,6 @@
     </section>
     <br>
     <br>
-    <div class="container">
-      <div class="row">
-          <div class="col-md-12">
-              <a href="{% url 'generate_csv' %}" class="btn btn-primary">Download CSV File</a>
-          </div>
-      </div>
-  </div>
-  <br>
     <section class="inner-page">
       <div class="container">
       <div class="row">
@@ -90,8 +92,7 @@
                   <th>Name</th>
                   <th>Phone</th>
                   <th>Email</th>
-                  <th>Password</th>
-                  <th>Place</th>
+                  <th>Address</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -103,21 +104,20 @@
                   <tr scope="row">
                     <form action="{% url 'edit_drv' %}" method="POST">
                         {% csrf_token %}
-                        <td>{{i.S_id}}<input type="text" name="S_iddd" value="{{i.S_id}}" hidden></td>
+                        <td>{{i.S_id}}<input type="text" name="S_id" value="{{i.S_id}}" hidden></td>
 
                         <td><input type="text" name="drv_name" value="{{i.drv_name}}" required></td>
 
                         <td><input type="number" name="drv_phn" value="{{i.drv_phn}}"required></td>
 
                         <td><input type="email" name="drv_email" value="{{i.drv_email}}" required></td>
-                        <td><input type="text" name="drv_psw" value="{{i.drv_psw}}" required></td>
                         <td><input type="text" name="drv_place" value="{{i.drv_place}}" required></td>
 
                         <td><input type="submit" class="btn btn-outline-primary" name="edi" id="edi" value="Edit"></td>
                     </form>
                     <form action="{% url 'del_drv' %}" method="POST">
                           {% csrf_token %}
-                          <input type="hidden" name="S_iddd" value="{{i.S_id}}">
+                          <input type="hidden" name="S_id" value="{{i.S_id}}">
                           <td><input type="submit" class="btn btn-outline-danger" name="del" id="del" value="Delete"></td>
                         </form>
                   </tr>
@@ -173,6 +173,64 @@
 
 
   <script src="{% static 'assets/js/main.js' %}"></script>
+
+  <script>
+    // Function to validate phone number
+    function validatePhone(input) {
+      const phonePattern = /^\d{10}$/;
+      return phonePattern.test(input.value);
+    }
+
+    // Function to validate email
+    function validateEmail(input) {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+      return emailPattern.test(input.value);
+    }
+
+    // Function to validate name
+    function validateName(input) {
+      const namePattern = /^[a-zA-Z\s]{3,}$/;
+      return namePattern.test(input.value);
+    }
+
+    // Function to handle form submission and validate inputs
+    function validateForm(event) {
+      const form = event.target.closest('form');
+      const nameInput = form.elements['drv_name'];
+      const phoneInput = form.elements['drv_phn'];
+      const emailInput = form.elements['drv_email'];
+      const ediButton = form.elements['edi'];
+
+      let isValid = true;
+
+      if (!validateName(nameInput)) {
+        alert('Name should contain alphabets only also should contain at least 3 characters.');
+        isValid = false;
+      }
+
+      if (!validatePhone(phoneInput)) {
+        alert('Please enter a valid phone number (10 digits only).');
+        isValid = false;
+      }
+
+      if (!validateEmail(emailInput)) {
+        alert('Please enter a valid email address.');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        // If validation fails, disable the Edit button for this row
+        ediButton.disabled = false;
+        event.preventDefault(); // Prevent form submission
+      }
+    }
+
+    // Add event listeners to form submission
+    const editForms = document.querySelectorAll('form[action="{% url 'edit_drv' %}"]');
+    editForms.forEach(form => {
+      form.addEventListener('submit', validateForm);
+    });
+  </script>
 
 </body>
 

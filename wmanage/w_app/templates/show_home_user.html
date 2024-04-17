@@ -40,7 +40,13 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="{% url 'show_home_user' %}">Home</a></li>
-          
+          <li><a class="nav-link scrollto " href="{% url 'user_profile' %}">Profile</a></li>
+          <li class="dropdown"><a href="#"><span>Complaints</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="active" href="{% url 'reg_complaint' %}">Register</a></li>
+              <li><a class="active" href="{% url 'view_cm_status' %}">View Status</a></li>
+            </ul>
+          </li>
           
           <li><a class="getstarted scrollto" href="{% url 'logout' %}">Logout</a></li>
         </ul>
