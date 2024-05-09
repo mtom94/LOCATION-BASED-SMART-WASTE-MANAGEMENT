@@ -1,0 +1,318 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'fo.css' %}" rel="stylesheet">
+  <style type="text/css">
+    .containerr {
+            width: 400px;
+            max-height: 200vh; /* Adjusted maximum height */
+             /* Added vertical scrollbar if content exceeds height */
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        input[type="submit"]:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .signin-link {
+            margin-top: 10px;
+        }
+
+        .signin-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="{% url 'show_home_user' %}" class="logo d-flex align-items-center">
+        <img src="{% static 'assets/img/logo.png' %}" alt="">
+        <span>WasteWise</span>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto " href="{% url 'show_home_user' %}">Home</a></li>
+          <li><a class="nav-link scrollto active" href="{% url 'user_profile' %}">Profile</a></li>
+          <li class="dropdown"><a href="#"><span>Complaints</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="active" href="{% url 'reg_complaint' %}">Register</a></li>
+              <li><a class="active" href="{% url 'view_cm_status' %}">View Status</a></li>
+            </ul>
+          </li>
+          
+          <li class="dropdown"><a href="#"><span>User</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="active" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header>
+
+  <main id="main">
+
+    
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <ol>
+          <li><a href="{% url 'show_home_admin' %}">Home</a></li>
+          <li>Drivers</li>
+        </ol>
+        <h2>Add Drivers</h2>
+
+      </div>
+    </section>
+    <br>
+    <br>
+    <section  class="inner-page">
+      <div class="containerr">
+        <form method="POST" action="{% url 'edit_prof' %}" id="signup-form">{% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="us_name" value={{name}} required>
+                <span class="error-msg" id="name-error-msg"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="us_email" value={{email}} required>
+                <span class="error-msg" id="email-error-msg"></span>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="us_addr" rows="4" required>{{addr}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="us_phn" value={{phn}} required>
+                <span class="error-msg" id="phone-error-msg"></span>
+            </div>
+            <input type="submit" value="Update" id="submit-btn" disabled>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var nameInput = document.getElementById("name");
+            var emailInput = document.getElementById("email");
+            var addressInput = document.getElementById("address");
+            var phoneInput = document.getElementById("phone");
+            var submitButton = document.getElementById("submit-btn");
+
+            nameInput.addEventListener("input", validateName);
+            emailInput.addEventListener("input", validateEmail);
+            addressInput.addEventListener("input", validateAddress);
+            phoneInput.addEventListener("input", validatePhone);
+
+            function validateName() {
+                var name = nameInput.value;
+                var namePattern = /^[a-zA-Z\s]{3,}$/;
+                if (!namePattern.test(name)) {
+                    nameInput.style.borderColor = "red";
+                    document.getElementById("name-error-msg").innerText = "Name should contain alphabets only also should contain at least 3 characters.";
+                    submitButton.disabled = true;
+                } else {
+                    nameInput.style.borderColor = "initial";
+                    document.getElementById("name-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+
+                
+            }
+
+            function validateEmail() {
+                var email = emailInput.value;
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+                if (!emailPattern.test(email)) {
+                    emailInput.style.borderColor = "red";
+                    document.getElementById("email-error-msg").innerText = "Please enter a valid email address.";
+                    submitButton.disabled = true;
+
+                } else {
+                    emailInput.style.borderColor = "initial";
+                    document.getElementById("email-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+
+
+
+            function validateAddress() {
+                var addressValid = addressInput.checkValidity();
+                if (!addressValid) {
+                    addressInput.style.borderColor = "red";
+                    submitButton.disabled = true;
+                } else {
+                    addressInput.style.borderColor = "initial";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function validatePhone() {
+                var phone = phoneInput.value;
+                var phonePattern = /^\d{10}$/;
+                if (!phonePattern.test(phone)) {
+                    phoneInput.style.borderColor = "red";
+                    document.getElementById("phone-error-msg").innerText = "Phone number should be 10 digits.";
+                    submitButton.disabled = true;
+                } else {
+                    phoneInput.style.borderColor = "initial";
+                    document.getElementById("phone-error-msg").innerText = "";
+                    updateSubmitButtonState();
+                }
+                
+            }
+
+            function updateSubmitButtonState() {
+                var nameValid = nameInput.checkValidity();
+                var emailValid = emailInput.checkValidity();
+                var addressValid = addressInput.checkValidity();
+                var phoneValid = phoneInput.checkValidity();
+
+                if (nameValid && emailValid && addressValid && phoneValid) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+        });
+    </script>
+
+
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-info">
+            <a href="{% url 'show_home_admin' %}" class="logo d-flex align-items-center">
+              <img src="{% static 'assets/img/logo.png' %}" alt="">
+              <span>WasteWise</span>
+            </a>
+            <p>
+                With WasteWise, municipalities and waste management companies can efficiently monitor and manage garbage bins, optimize collection routes, and analyze waste trends to make informed decisions. Our platform empowers drivers with real-time updates on work assignments, optimal routes, and bin fill levels, ensuring timely and effective waste collection.
+            </p>
+
+          
+          </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>WasteWise</span></strong>. All Rights Reserved
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+<!--   <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script> -->
+
+
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
